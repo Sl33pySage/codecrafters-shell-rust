@@ -16,6 +16,8 @@ fn main() {
         } else if command.starts_with("type") {
             if &command[5..] == "echo" || &command[5..] == "type" || &command[5..] == "exit" {
                 println!("{} is a shell builtin", &command[5..]);
+            } else {
+                println!("{}: not found", &command[5..]);
             }
         } else {
             println!("{}: command not found", command);
