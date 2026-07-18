@@ -11,7 +11,7 @@ fn main() {
         // 2. Read the user's input
         let mut input = String::new();
         io::stdin().read_line(&mut input).unwrap();
-        if &mut input == "exit" {
+        if input.trim() == "exit" {
             break;
         } else {
             // 3. Print an error message in exactly this format: {command}: command not found
