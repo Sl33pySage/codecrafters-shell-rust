@@ -13,6 +13,11 @@ fn main() {
             break;
         } else if command.starts_with("echo") {
             println!("{}", &command[5..]);
+        } else if command.starts_with("type") && command == "echo"
+            || command == "type"
+            || command == "exit"
+        {
+            println!("{} is a shell builtin", &command[5..]);
         } else {
             println!("{}: command not found", command.trim());
         }
