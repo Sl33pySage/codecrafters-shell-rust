@@ -14,12 +14,18 @@ fn plswork(path: PathBuf, command: String) -> std::io::Result<()> {
     //println!("{:o}", mode);
     // Check if the lower 9 bits contain specefic permissions (e.g., owner execute)
     let is_owner_executable = (mode & 0o100) != 0;
-    if is_owner_executable {
+    if path.exists() && is_owner_executable {
         //  TODO: c. If the file exists and has execute permissions, print <command> is
         //  <full_path> and stop.
         println!("{} is {}", command, path.display());
-    } else if !is_owner_executable {
+    }
+    if path.exists() && !is_owner_executable {
         //  TODO: d. If the file exists but lacks execute permissions, skip it and continue to the next directory.
+        println!("False: {}", is_owner_executable);
+    } else {
+        // TODO: 3. If no executable is found in any directory, print <command> : not found.
+
+        println!("{}: command not found", command);
     }
     Ok(())
 }
@@ -37,7 +43,6 @@ fn main() {
         } else if command.starts_with("echo") {
             println!("{}", &command[5..]);
         } else if command.starts_with("type") {
-            // TODO: 3. If no executable is found in any directory, print <command> : not found.
             if &command[5..] == "echo" || &command[5..] == "type" || &command[5..] == "exit" {
                 println!("{} is a shell builtin", &command[5..]);
             } else {
@@ -60,8 +65,6 @@ fn main() {
                 }
                 println!("{}: not found", &command[5..]);
             }
-        } else {
-            println!("{}: command not found", command);
         }
     }
 }
