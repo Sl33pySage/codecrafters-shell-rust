@@ -1,9 +1,15 @@
 #[allow(unused_imports)]
 use std::env;
 use std::fs;
-use std::fs::Permissions;
 use std::io::{self, Write};
 use std::os::unix::fs::PermissionsExt;
+use std::path::PathBuf;
+
+fn plswork(path: PathBuf) -> std::io::Result<()> {
+    let metadata = fs::metadata(&path)?;
+    println!("{:o}", !metadata.permissions().mode());
+    Ok(())
+}
 
 fn main() {
     loop {
@@ -18,7 +24,6 @@ fn main() {
         } else if command.starts_with("echo") {
             println!("{}", &command[5..]);
         } else if command.starts_with("type") {
-            //  TODO: b. Check if the file has execute permissions.
             //  TODO: c. If the file exists and has execute permissions, print <command> is
             //  <full_path> and stop.
             //  TODO: d. If the file exists but lacks execute permissions, skip it and continue to the next directory.
@@ -36,7 +41,12 @@ fn main() {
                                 //  TODO: a. Check if a file with the command name exists.
                                 if file == &command[5..] {
                                     //checking for permissions
-                                    println!("MATCH: {:?}", file);
+                                    // println!("MATCH: {:?}", file);
+                                    //  TODO: b. Check if the file has execute permissions.
+
+                                    //let permissions = metadata.permissions();
+                                    //println!("{:?}", permissions);
+                                    plswork(path.clone());
                                 }
                             }
                         }
