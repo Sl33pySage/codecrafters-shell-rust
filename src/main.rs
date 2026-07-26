@@ -1,7 +1,7 @@
 #[allow(unused_imports)]
-use std::env;
+//use std::env;
 use std::io::{self, Write};
-use std::os::unix::fs::PermissionsExt;
+//use std::os::unix::fs::PermissionsExt;
 //use std::path::PathBuf;
 //use std::{fs, path};
 //use std::path::PathBuf;
@@ -45,3 +45,38 @@ fn main() {
     }
 }
 */
+
+fn main() {
+    let available_commands = ["type", "echo", "exit"];
+
+    loop {
+        print!("$ ");
+
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+
+        input = input.trim().to_string();
+        let mut input_parts = input.splitn(2, ' ');
+
+        let command = input_parts.next().unwrap_or("");
+        let args = input_parts.next().unwrap_or("");
+
+        if command == "exit" {
+            break;
+        } else if command == "echo" {
+            println!("{}", args);
+        } else if command == "type" {
+            if available_commands.contains(&args) {
+                println!("{} is a shell builtin", args);
+            } else if let Ok(path) = which::which(args) {
+                println!("{} is {}", args, path.display());
+            } else {
+                println!("{}: not found", args);
+            }
+        } else {
+            println!("{}: comand not found", command);
+        }
+    }
+}
