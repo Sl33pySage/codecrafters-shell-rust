@@ -6,27 +6,6 @@ use std::os::unix::fs::PermissionsExt;
 //use std::{fs, path};
 //use std::path::PathBuf;
 
-fn plswork(command: String) {
-    let key = "PATH";
-    match env::var_os(key) {
-        Some(paths) => {
-            for path in env::split_paths(&paths) {
-                //println!("'{}'", path.display());
-                //println!("paths: {}", paths.display());
-                for file in &path {
-                    //println!("file {:?} in &path {:?}", file, &path);
-                    if *file == *command
-                        && path.metadata().unwrap().permissions().mode() & 0o100 != 0
-                    {
-                        println!("{} is {:?}", command, path.display());
-                    }
-                }
-            }
-        }
-        None => println!("None"),
-    }
-}
-
 fn main() {
     loop {
         print!("$ ");
@@ -42,7 +21,24 @@ fn main() {
             if &command[5..] == "echo" || &command[5..] == "type" || &command[5..] == "exit" {
                 println!("{} is a shell builtin", &command[5..]);
             } else {
-                plswork(command[5..].to_string());
+                let key = "PATH";
+                match env::var_os(key) {
+                    Some(paths) => {
+                        for path in env::split_paths(&paths) {
+                            //println!("'{}'", path.display());
+                            //println!("paths: {}", paths.display());
+                            for file in &path {
+                                //println!("file {:?} in &path {:?}", file, &path);
+                                if *file == command[5..]
+                                    && path.metadata().unwrap().permissions().mode() & 0o100 != 0
+                                {
+                                    println!("{} is {}", command, path.display());
+                                }
+                            }
+                        }
+                    }
+                    None => println!("None"),
+                }
             }
         }
     }
