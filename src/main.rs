@@ -76,7 +76,7 @@ fn main() {
                 println!("{}: not found", args);
             }
         } else {
-            println!("{}: comand not found", command);
+            println!("{}: command not found", command);
         }
     }
 }
