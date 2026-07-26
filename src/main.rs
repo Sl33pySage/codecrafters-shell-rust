@@ -6,6 +6,7 @@ use std::os::unix::fs::PermissionsExt;
 //use std::{fs, path};
 //use std::path::PathBuf;
 
+/*
 fn main() {
     loop {
         print!("$ ");
@@ -43,3 +44,4 @@ fn main() {
         }
     }
 }
+*/
