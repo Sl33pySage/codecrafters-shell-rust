@@ -72,6 +72,14 @@ fn main() {
                 println!("{} is a shell builtin", args);
             } else if let Ok(path) = which::which(args) {
                 println!("{} is {}", args, path.display());
+                // TODO: 1. Determine if the given command is an executable (you can reuse the logic from type
+                // TODO: 2. If it is, execute the program
+                // TODO: 3. Pass any arguments from the command line to the program
+                // For example, if the user types custom_exe arg1 arg2, your shell should:
+
+                /* Determine if custom_exe is an executable in PATH
+                    Execute it with three arguments: custom_exe (the program name), arg1, and arg2
+                */
             } else {
                 println!("{}: not found", args);
             }
