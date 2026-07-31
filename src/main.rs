@@ -1,6 +1,8 @@
+use std::io::SeekFrom::Start;
 #[allow(unused_imports)]
 //use std::env;
 use std::io::{self, Write};
+use std::process::Command;
 //use std::os::unix::fs::PermissionsExt;
 //use std::path::PathBuf;
 //use std::{fs, path};
@@ -83,6 +85,9 @@ fn main() {
             } else {
                 println!("{}: not found", args);
             }
+        } else if let Ok(path) = which::which(args) {
+            let program = Command::new(command);
+            println!("program: {:?}", &program);
         } else {
             println!("{}: command not found", command);
         }
